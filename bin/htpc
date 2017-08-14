@@ -1,0 +1,18 @@
+#! /usr/bin/env ruby
+
+# Demonstrate how subcommands can be declared as classes
+
+require 'clamp'
+require 'htpc'
+
+$home = File.expand_path('~')
+$config = Hashugar.new(
+  Psych.load_file("#{$home}/.htpc/config.yml")
+)
+
+$seed = $config.seed
+$stage = $config.stage
+$compose = $config.compose
+$archive = $config.archive
+
+Htpc::CLI::Main.run
