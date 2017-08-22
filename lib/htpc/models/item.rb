@@ -1,22 +1,29 @@
 require 'find'
 require 'filesize'
-require 'htpc/cli/utils/ui.rb'
 
 module Htpc
   module Models
     class Item
       extend Forwardable
 
-      attr_reader :path, :pathname
+      attr_reader :path, :pathname, :torrent
       def_delegators :pathname, :file?, :directory?, :basename, :dirname
 
       def initialize(path)
         @path = path
         @pathname = Pathname.new(path)
+        @torrent ||= Htpc::Models::Torrent.new(
+          name: basename.to_s,
+          directory: dirname
+        )
       end
 
       def valid?
         pathname.exist?
+      end
+
+      def has_torrent?
+        torrent && torrent.exist?
       end
 
       def to_s
@@ -35,6 +42,24 @@ module Htpc
         # come up empty for these on the user's system, but I'm not
         # sure how to check for that yet.
         file? ? "\u{f015}" : "\u{f113}"
+      end
+
+      def media_icon
+        if torrent && torrent.traits
+          case
+          when torrent.traits.include?('video')
+            "\u{f007}"
+          when torrent.traits.include?('audio')
+            "\u{f484}"
+          when torrent.traits.include?('docs')
+            "\u{f02c}"
+          else
+            "\u{f0c6}"
+          end
+        else
+          # TODO: fallback to mediainfo
+          "\u{f0c6}"
+        end
       end
 
       def size
