@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency('tty')
   spec.add_runtime_dependency('highline')
   spec.add_runtime_dependency('omdbapi')
+  spec.add_runtime_dependency('filesize')
 
   spec.add_development_dependency "bundler", "~> 1.15"
 end

@@ -9,6 +9,12 @@ module Htpc
         def prompt
           @prompt ||= TTY::Prompt.new
         end
+        def shell
+          @shell ||= TTY::Command.new(dry_run: false, printer: :null)
+        end
+        def dry_run
+          @dry_run ||= TTY::Command.new(dry_run: true, printer: :null)
+        end
 
         # Colorized Notices #
         def put_info(text)
@@ -47,6 +53,24 @@ module Htpc
 
         def prompt_mark
           pastel.magenta.bold("[PROMPT]")
+        end
+
+        # Decorators #
+        def human_size(size)
+          Filesize.new(size, Filesize::SI).pretty
+        end
+
+        def truncate(text, length = 40, ellipsis = '...')
+          if text.length > length
+            text.to_s[0..length].gsub(/[^\w]\w+\s*$/, ellipsis)
+          else
+            text
+          end
+        end
+
+        # Misc #
+        def newline
+          puts "\n"
         end
       end
     end
