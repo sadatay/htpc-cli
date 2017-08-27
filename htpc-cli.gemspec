@@ -33,13 +33,17 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('aruba')
   spec.add_development_dependency('pry-byebug')
 
+  spec.add_runtime_dependency('require_all')
   spec.add_runtime_dependency('clamp')
   spec.add_runtime_dependency('psych')
+  spec.add_runtime_dependency('multi_json')
   spec.add_runtime_dependency('hashugar')
   spec.add_runtime_dependency('tty')
   spec.add_runtime_dependency('highline')
   spec.add_runtime_dependency('omdbapi')
   spec.add_runtime_dependency('filesize')
+  
+
 
   spec.add_development_dependency "bundler", "~> 1.15"
 end

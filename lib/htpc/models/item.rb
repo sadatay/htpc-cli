@@ -4,43 +4,46 @@ require 'filesize'
 module Htpc
   module Models
     class Item
+      include Htpc::Utils::Console
       extend Forwardable
 
-      attr_reader :path, :pathname, :torrent
-      def_delegators :pathname, :file?, :directory?, :basename, :dirname
+      attr_accessor :torrent
+      attr_reader :pathname
+      
+      def_delegators :pathname, :file?, :directory?, :basename, :dirname, :realpath
 
-      def initialize(path)
-        @path = path
-        @pathname = Pathname.new(path)
-        @torrent ||= Htpc::Models::Torrent.new(
-          name: basename.to_s,
-          directory: dirname
-        )
+      def initialize(item:, torrent: nil)
+        @pathname = Pathname.new(item)
+        @torrent = torrent
+      end
+
+      def path
+        pathname.realpath.to_s
       end
 
       def valid?
         pathname.exist?
       end
 
-      def has_torrent?
-        torrent && torrent.exist?
-      end
-
       def to_s
         basename.to_s
       end
 
-      def for_rtcontrol
-        basename.to_s.sub('[','?').sub(']','?').sub(',','?').sub('/','')
+      def has_torrent?
+        torrent ? true : false
+      end
+
+      def delete_torrent!
+        torrent.delete!
+        torrent = nil
+      end
+
+      def torrent_slug
+        torrent ? torrent.slug : "[ #{pastel.red('NOT TRACKED')} ]"
       end
 
       def icon
-        # Returns a file glyph for bare files and a folder glyph
-        # for directories.  Assumes "Font Awesome" is installed
-        # (see https://github.com/ryanoasis/nerd-fonts).  We should
-        # probably default to some plaintext if the unicode codepoints
-        # come up empty for these on the user's system, but I'm not
-        # sure how to check for that yet.
+        # TODO: account for 
         file? ? "\u{f015}" : "\u{f113}"
       end
 
