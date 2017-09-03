@@ -1,7 +1,7 @@
 module Htpc
   module CLI
     module Operations
-      class ConfirmationPrompt
+      class DisplayConfirmationPrompt
         include Htpc::Utils::UI
         attr_reader :text
 

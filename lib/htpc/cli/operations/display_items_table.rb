@@ -1,7 +1,7 @@
 module Htpc
   module CLI
     module Operations
-      class ItemsTable
+      class DisplayItemsTable
         include Htpc::Utils::UI
         attr_reader :items, :columns, :headers, :alignments, :column_specs, :total_size
 

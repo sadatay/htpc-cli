@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency('rake')
   spec.add_development_dependency('aruba')
+  spec.add_development_dependency('rspec')
   spec.add_development_dependency('pry-byebug')
 
   spec.add_runtime_dependency('require_all')
@@ -38,10 +39,12 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency('psych')
   spec.add_runtime_dependency('multi_json')
   spec.add_runtime_dependency('hashugar')
+  spec.add_runtime_dependency('map')
   spec.add_runtime_dependency('tty')
   spec.add_runtime_dependency('highline')
   spec.add_runtime_dependency('omdbapi')
   spec.add_runtime_dependency('filesize')
+  spec.add_runtime_dependency('configatron')
   
 
 

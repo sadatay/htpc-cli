@@ -2,17 +2,15 @@ module Htpc
   module CLI
     module Commands
       module Stage
-        class Lint < Htpc::CLI::Commands::Compositions::Base
-          parameter "ITEMS ...", "Items to lint", :attribute_name => :item_args
-          attr_reader :torrent_service
+        class Lint < Htpc::CLI::Compositions::Processor
+          parameter "ITEMS ...", "Items to lint", :attribute_name => :items
           attr_accessor :items
 
-          def init
-            newline
-            put_command "LINTING ITEMS"
-          end
 
           def receive
+            newline
+            put_command "LINTING ITEMS"
+
             @items = item_args.map do |item_arg|
               Htpc::Models::Item.new(item: item_arg)
             end
@@ -31,10 +29,9 @@ module Htpc
             exit(0) if items.empty?
           end
 
-          def action
+          def process
             put_info "LINT ACTION"
           end
-
         end
       end
     end
